@@ -1,0 +1,7 @@
+{
+  "name": "muslim-community-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
