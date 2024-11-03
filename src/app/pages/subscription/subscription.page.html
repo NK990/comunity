@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Premium Subscriptions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="flex flex-col items-center justify-center min-h-[80vh]">
+    <h1 class="text-2xl font-bold text-emerald-700 mb-8">Choose Your Subscription Plan</h1>
+
+    <!-- Subscription Plans Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
+      <!-- Monthly Plan -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-emerald-100 hover:border-emerald-500 transition-all duration-300">
+        <div class="bg-emerald-50 p-6">
+          <h2 class="text-xl font-bold text-emerald-800">{{plans[0].name}}</h2>
+          <p class="text-3xl font-bold text-emerald-600 mt-2">
+            {{getFormattedPrice(plans[0].price)}}
+            <span class="text-sm font-normal text-emerald-500">/month</span>
+          </p>
+        </div>
+        <div class="p-6">
+          <ul class="space-y-3">
+            <li *ngFor="let feature of plans[0].features" class="flex items-start">
+              <ion-icon name="checkmark-circle" class="text-emerald-500 mr-2 text-xl"></ion-icon>
+              <span>{{feature}}</span>
+            </li>
+          </ul>
+          <ion-button expand="block" class="mt-6" (click)="subscribeToPlan(plans[0].id)">
+            Subscribe Now
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- 6 Month Plan -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-emerald-100 hover:border-emerald-500 transition-all duration-300 transform scale-105">
+        <div class="bg-emerald-600 p-6 text-white">
+          <h2 class="text-xl font-bold">{{plans[1].name}}</h2>
+          <p class="text-3xl font-bold mt-2">
+            {{getFormattedPrice(plans[1].price)}}
+            <span class="text-sm font-normal">/6 months</span>
+          </p>
+          <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm mt-2 inline-block">Most Popular</span>
+        </div>
+        <div class="p-6">
+          <ul class="space-y-3">
+            <li *ngFor="let feature of plans[1].features" class="flex items-start">
+              <ion-icon name="checkmark-circle" class="text-emerald-500 mr-2 text-xl"></ion-icon>
+              <span>{{feature}}</span>
+            </li>
+          </ul>
+          <ion-button expand="block" color="success" class="mt-6" (click)="subscribeToPlan(plans[1].id)">
+            Subscribe Now
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Yearly Plan -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-emerald-100 hover:border-emerald-500 transition-all duration-300">
+        <div class="bg-emerald-50 p-6">
+          <h2 class="text-xl font-bold text-emerald-800">{{plans[2].name}}</h2>
+          <p class="text-3xl font-bold text-emerald-600 mt-2">
+            {{getFormattedPrice(plans[2].price)}}
+            <span class="text-sm font-normal text-emerald-500">/year</span>
+          </p>
+        </div>
+        <div class="p-6">
+          <ul class="space-y-3">
+            <li *ngFor="let feature of plans[2].features" class="flex items-start">
+              <ion-icon name="checkmark-circle" class="text-emerald-500 mr-2 text-xl"></ion-icon>
+              <span>{{feature}}</span>
+            </li>
+          </ul>
+          <ion-button expand="block" class="mt-6" (click)="subscribeToPlan(plans[2].id)">
+            Subscribe Now
+          </ion-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Subscription Info -->
+    <div *ngIf="currentSubscription" class="mt-8 w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-lg font-bold text-emerald-800 mb-4">Current Subscription</h3>
+        <p class="mb-2">Plan: {{currentSubscription.planId}}</p>
+        <p class="mb-2">Status: {{currentSubscription.status}}</p>
+        <p class="mb-4">Expires: {{currentSubscription.endDate | date}}</p>
+        <ion-button color="danger" fill="outline" expand="block" (click)="cancelSubscription()">
+          Cancel Subscription
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

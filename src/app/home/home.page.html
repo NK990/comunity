@@ -4,6 +4,11 @@
       <ion-icon name="moon" class="mr-2"></ion-icon>
       Muslim Community Hub
     </ion-title>
+    <ion-buttons slot="end" *ngIf="isAuthenticated$ | async">
+      <ion-button (click)="signOut()">
+        <ion-icon name="log-out" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +20,9 @@
     <h1 class="text-3xl font-bold text-emerald-800 mb-2 arabic-font">As-salaam-alaikum</h1>
     <p class="text-lg text-gray-600 mb-8">Welcome to our Muslim Community Hub</p>
     <div class="w-16 h-1 bg-emerald-600 mx-auto mb-8"></div>
+    <div *ngIf="currentUser$ | async as user" class="text-emerald-700 mb-4">
+      Welcome back, {{ user.displayName || user.email }}
+    </div>
   </div>
 
   <!-- Public Content Section -->
@@ -67,12 +75,12 @@
       </div>
 
       <!-- Auth Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <ion-button fill="solid" color="success">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center" *ngIf="!(isAuthenticated$ | async)">
+        <ion-button fill="solid" color="success" (click)="navigateToLogin()">
           <ion-icon name="log-in" slot="start"></ion-icon>
           Sign In
         </ion-button>
-        <ion-button fill="solid" color="warning">
+        <ion-button fill="solid" color="warning" (click)="navigateToSignup()">
           <ion-icon name="person-add" slot="start"></ion-icon>
           Join Now
         </ion-button>

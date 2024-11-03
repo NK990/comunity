@@ -1,0 +1,91 @@
+// Islamic-themed styling for subscription page
+ion-content {
+  --background: #f8fafc;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+ion-toolbar {
+  --background: #fff;
+  --color: #047857;
+}
+
+// Plan card animations
+.plan-card {
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+// Feature list styling
+ul {
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #374151;
+
+    ion-icon {
+      margin-right: 0.5rem;
+      color: #10b981;
+    }
+  }
+}
+
+// Price tag styling
+.price-tag {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+// Current subscription card
+.subscription-info {
+  background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+  border: 1px solid #d1fae5;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+
+  h3 {
+    color: #047857;
+    margin-bottom: 1rem;
+  }
+}
+
+// Islamic pattern background for headers
+.plan-header {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+// Custom button styling
+ion-button {
+  --background: #059669;
+  --background-hover: #047857;
+  --background-activated: #047857;
+  --border-radius: 9999px;
+
+  &.danger {
+    --background: #ef4444;
+    --background-hover: #dc2626;
+    --background-activated: #dc2626;
+  }
+}
