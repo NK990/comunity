@@ -25,6 +25,31 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'prayer',
+    loadComponent: () => import('./pages/prayer/prayer.page').then(m => m.PrayerPage)
+  },
+  {
+    path: 'events',
+    loadComponent: () => import('./pages/events/events.page').then(m => m.EventsPage)
+  },
+  {
+    path: 'quran',
+    loadComponent: () => import('./pages/quran/quran.page').then(m => m.QuranPage)
+  },
+  {
+    path: 'forum',
+    loadComponent: () => import('./pages/forum/forum.page').then(m => m.ForumPage)
+  },
+  {
+    path: 'donation',
+    loadComponent: () => import('./pages/donation/donation.page').then(m => m.DonationPage)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

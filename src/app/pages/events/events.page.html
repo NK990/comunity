@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar class="bg-emerald-50">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-emerald-800 font-arabic">Community Events</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-emerald-50">
+  <!-- Location Filter -->
+  <div class="p-4 bg-white shadow-sm">
+    <ion-item>
+      <ion-label position="stacked">Filter by Location</ion-label>
+      <ion-input [(ngModel)]="selectedLocation" (ionChange)="onLocationChange()" placeholder="Enter location"></ion-input>
+    </ion-item>
+  </div>
+
+  <!-- Event Type Filter -->
+  <div class="p-4">
+    <ion-segment [(ngModel)]="selectedType" color="success">
+      <ion-segment-button *ngFor="let type of eventTypes" [value]="type">
+        <ion-label class="capitalize">{{ type }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Events List -->
+  <div class="p-4">
+    <ng-container *ngFor="let event of events$ | async">
+      <ng-container *ngIf="selectedType === 'all' || event.type === selectedType">
+        <ion-card class="mb-4">
+          <ion-card-header>
+            <div class="flex items-center justify-between">
+              <ion-card-subtitle class="text-emerald-600">
+                {{ event.date | date:'mediumDate' }} at {{ event.time }}
+              </ion-card-subtitle>
+              <ion-icon [name]="getEventIcon(event.type)" class="text-2xl text-emerald-600"></ion-icon>
+            </div>
+            <ion-card-title class="text-lg font-semibold mt-2">{{ event.title }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p class="text-gray-600 mb-4">{{ event.description }}</p>
+
+            <div class="flex items-center text-sm text-gray-500 mb-4">
+              <ion-icon name="location" class="mr-1"></ion-icon>
+              {{ event.location }}
+            </div>
+
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                {{ event.rsvpCount }} people attending
+              </div>
+              <div class="flex gap-2">
+                <ion-button fill="clear" color="success" (click)="enableNotifications(event)">
+                  <ion-icon name="notifications" slot="icon-only"></ion-icon>
+                </ion-button>
+                <ion-button fill="solid" color="success" (click)="toggleRsvp(event.id)" [class.ion-color-warning]="event.userRsvped">
+                  {{ event.userRsvped ? 'Cancel RSVP' : 'RSVP' }}
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <!-- Add Event FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

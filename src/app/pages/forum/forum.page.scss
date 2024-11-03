@@ -1,0 +1,141 @@
+ion-content {
+  --background: #f8fafc;
+}
+
+.font-arabic {
+  font-family: 'Amiri', serif;
+}
+
+// Category Segment Styling
+.category-segment {
+  background: white;
+  border-radius: 8px;
+  padding: 4px;
+
+  ion-segment-button {
+    --background: transparent;
+    --background-checked: #047857;
+    --color: #047857;
+    --color-checked: white;
+    --indicator-color: transparent;
+    border-radius: 6px;
+    text-transform: capitalize;
+    min-height: 40px;
+
+    &::part(indicator) {
+      display: none;
+    }
+
+    ion-icon {
+      color: inherit;
+      margin-right: 4px;
+    }
+  }
+}
+
+// Post Card Styling
+.post-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  .post-header {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .post-actions {
+    padding: 8px 16px;
+    border-bottom: 1px solid #e2e8f0;
+
+    ion-button {
+      --color: #047857;
+
+      &.liked {
+        --color: #e11d48;
+      }
+    }
+  }
+
+  .post-replies {
+    background: #f1f5f9;
+    padding: 16px;
+
+    .reply {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// FAB Styling
+ion-fab-button {
+  --background: #047857;
+  --background-activated: #065f46;
+  --background-hover: #065f46;
+}
+
+// Modal Styling
+ion-modal {
+  --height: auto;
+  --border-radius: 16px;
+
+  ion-content {
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 16px;
+  }
+
+  ion-button {
+    --background: #047857;
+    --background-activated: #065f46;
+    --background-hover: #065f46;
+  }
+}
+
+// Badge Styling
+ion-badge {
+  --background: #047857;
+  --color: white;
+  text-transform: capitalize;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+// Message List Styling
+.message-list {
+  .message {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background: white;
+
+    &.unread {
+      background: #ecfdf5;
+    }
+
+    .message-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .message-content {
+      color: #1e293b;
+    }
+  }
+}

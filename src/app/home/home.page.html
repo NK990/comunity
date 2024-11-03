@@ -1,6 +1,6 @@
-<ion-header [translucent]="true" class="bg-emerald-700">
-  <ion-toolbar class="bg-emerald-700">
-    <ion-title class="text-white text-center">
+<ion-header [translucent]="true" class="bg-emerald-50">
+  <ion-toolbar class="bg-emerald-50">
+    <ion-title class="text-emerald-800 font-arabic">
       <ion-icon name="moon" class="mr-2"></ion-icon>
       Muslim Community Hub
     </ion-title>
@@ -12,79 +12,85 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="bg-slate-50">
-  <!-- Islamic Pattern Background -->
-  <div class="absolute inset-0 opacity-5 pattern-islamic bg-emerald-700"></div>
-
-  <div class="p-4 text-center relative">
-    <h1 class="text-3xl font-bold text-emerald-800 mb-2 arabic-font">As-salaam-alaikum</h1>
-    <p class="text-lg text-gray-600 mb-8">Welcome to our Muslim Community Hub</p>
-    <div class="w-16 h-1 bg-emerald-600 mx-auto mb-8"></div>
-    <div *ngIf="currentUser$ | async as user" class="text-emerald-700 mb-4">
-      Welcome back, {{ user.displayName || user.email }}
+<ion-content [fullscreen]="true" class="bg-emerald-50">
+  <!-- Islamic Date and Next Prayer -->
+  <div class="p-4 bg-emerald-600 text-white">
+    <div class="flex justify-between items-center">
+      <div>
+        <h2 class="text-2xl font-arabic mb-1">{{ islamicDate?.hijri }}</h2>
+        <p class="text-sm opacity-80">{{ islamicDate?.gregorian }}</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm">Next Prayer</p>
+        <h3 class="text-xl font-bold">{{ nextPrayer?.name }}</h3>
+        <p class="text-lg">{{ nextPrayer?.time }}</p>
+      </div>
     </div>
   </div>
 
-  <!-- Public Content Section -->
-  <div class="max-w-4xl mx-auto p-4 relative">
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-t-4 border-emerald-600">
-      <h2 class="text-xl font-semibold text-emerald-700 mb-4 flex items-center">
-        <ion-icon name="people" class="mr-2"></ion-icon>
-        Public Features
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-4 border rounded-lg bg-emerald-50 hover:shadow-md transition-shadow">
-          <h3 class="font-medium text-emerald-800 flex items-center">
-            <ion-icon name="time" class="mr-2"></ion-icon>
-            Daily Prayers
-          </h3>
-          <p class="text-gray-600">Access prayer times and qibla direction</p>
-        </div>
-        <div class="p-4 border rounded-lg bg-emerald-50 hover:shadow-md transition-shadow">
-          <h3 class="font-medium text-emerald-800 flex items-center">
-            <ion-icon name="calendar" class="mr-2"></ion-icon>
-            Community Events
-          </h3>
-          <p class="text-gray-600">View upcoming events and gatherings</p>
-        </div>
-      </div>
-    </div>
+  <!-- Banner Section -->
+  <div class="p-4 bg-white shadow-sm rounded-lg mx-4 my-2">
+    <h2 class="text-xl font-semibold text-gray-800 mb-2">Community Announcements</h2>
+    <ion-list>
+      <ion-item lines="none">
+        <ion-icon name="megaphone" slot="start" class="text-emerald-600"></ion-icon>
+        <ion-label>
+          <h3 class="font-semibold">Jummah Prayer</h3>
+          <p class="text-gray-600">Friday at 13:30 - Main Hall</p>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="calendar" slot="start" class="text-emerald-600"></ion-icon>
+        <ion-label>
+          <h3 class="font-semibold">Islamic Study Circle</h3>
+          <p class="text-gray-600">Saturday at 18:00 - Learning Center</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
-    <!-- Premium Features Preview -->
-    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-amber-600">
-      <h2 class="text-xl font-semibold text-emerald-700 mb-4 flex items-center">
-        <ion-icon name="star" class="mr-2"></ion-icon>
-        Premium Features
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
-          <h3 class="font-medium text-amber-800">Monthly Plan</h3>
-          <p class="text-gray-600">Perfect for trying out premium features</p>
-          <div class="mt-2 text-amber-700 font-semibold">$9.99/month</div>
-        </div>
-        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
-          <h3 class="font-medium text-amber-800">6 Month Plan</h3>
-          <p class="text-gray-600">Great value for dedicated members</p>
-          <div class="mt-2 text-amber-700 font-semibold">$49.99/6months</div>
-        </div>
-        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
-          <h3 class="font-medium text-amber-800">Yearly Plan</h3>
-          <p class="text-gray-600">Best value for long-term commitment</p>
-          <div class="mt-2 text-amber-700 font-semibold">$89.99/year</div>
-        </div>
-      </div>
+  <!-- Quick Links Grid -->
+  <div class="grid grid-cols-2 gap-4 p-4">
+    <ng-container *ngFor="let link of quickLinks">
+      <ion-card class="m-0 bg-white" [routerLink]="link.route">
+        <ion-card-content class="text-center p-4">
+          <ion-icon [name]="link.icon" class="text-4xl text-emerald-600 mb-2"></ion-icon>
+          <h3 class="font-semibold text-gray-800">{{ link.title }}</h3>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
 
-      <!-- Auth Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center" *ngIf="!(isAuthenticated$ | async)">
-        <ion-button fill="solid" color="success" (click)="navigateToLogin()">
-          <ion-icon name="log-in" slot="start"></ion-icon>
-          Sign In
-        </ion-button>
-        <ion-button fill="solid" color="warning" (click)="navigateToSignup()">
-          <ion-icon name="person-add" slot="start"></ion-icon>
-          Join Now
-        </ion-button>
-      </div>
-    </div>
+  <!-- Prayer Times Today -->
+  <div class="p-4">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Today's Prayer Times</h2>
+    <ion-list class="bg-white rounded-lg">
+      <ion-item *ngFor="let prayer of prayers" lines="full">
+        <ion-label>
+          <h3 class="font-semibold">{{ prayer.name }}</h3>
+        </ion-label>
+        <ion-note slot="end" class="text-emerald-600">{{ prayer.time }}</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Premium Features (if not subscribed) -->
+  <div class="p-4" *ngIf="!(isAuthenticated$ | async)">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Join Our Community</h2>
+    <ion-card class="bg-white">
+      <ion-card-content>
+        <p class="text-gray-600 mb-4">Sign in to access premium features and connect with the community.</p>
+        <div class="flex gap-4 justify-center">
+          <ion-button fill="solid" color="success" (click)="navigateToLogin()">
+            <ion-icon name="log-in" slot="start"></ion-icon>
+            Sign In
+          </ion-button>
+          <ion-button fill="solid" color="warning" (click)="navigateToSignup()">
+            <ion-icon name="person-add" slot="start"></ion-icon>
+            Join Now
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

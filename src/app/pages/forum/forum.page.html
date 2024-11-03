@@ -1,0 +1,142 @@
+<ion-header>
+  <ion-toolbar class="bg-emerald-50">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-emerald-800 font-arabic">Community Forum</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-emerald-50">
+  <!-- Category Filter -->
+  <div class="p-4 bg-white shadow-sm mb-4">
+    <ion-segment [(ngModel)]="selectedCategory" (ionChange)="filterByCategory(selectedCategory)" class="category-segment">
+      <ion-segment-button *ngFor="let category of categories" [value]="category">
+        <ion-icon [name]="getCategoryIcon(category)"></ion-icon>
+        <ion-label class="capitalize">{{ category }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Forum Posts -->
+  <div class="p-4">
+    <div *ngFor="let post of posts$ | async" class="mb-6 bg-white rounded-lg shadow-sm">
+      <!-- Post Header -->
+      <div class="p-4 border-b border-gray-100">
+        <div class="flex justify-between items-start mb-2">
+          <h3 class="text-lg font-semibold text-emerald-800">{{ post.title }}</h3>
+          <ion-badge color="success" class="capitalize">{{ post.category }}</ion-badge>
+        </div>
+        <p class="text-gray-600 mb-2">{{ post.content }}</p>
+        <div class="flex justify-between items-center text-sm text-gray-500">
+          <span>By {{ post.author }}</span>
+          <span>{{ post.date | date:'medium' }}</span>
+        </div>
+      </div>
+
+      <!-- Post Actions -->
+      <div class="px-4 py-2 flex justify-between items-center border-b border-gray-100">
+        <div class="flex items-center space-x-2">
+          <ion-button fill="clear" size="small" (click)="toggleLike(post.id)">
+            <ion-icon slot="start" name="heart"></ion-icon>
+            {{ post.likes }}
+          </ion-button>
+          <ion-button fill="clear" size="small">
+            <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
+            {{ post.replies.length }}
+          </ion-button>
+        </div>
+        <ion-button fill="clear" size="small" (click)="showChatModal = true">
+          <ion-icon slot="start" name="mail"></ion-icon>
+          Private Message
+        </ion-button>
+      </div>
+
+      <!-- Replies -->
+      <div class="p-4 bg-gray-50">
+        <div *ngFor="let reply of post.replies" class="mb-3 last:mb-0">
+          <div class="bg-white p-3 rounded-lg">
+            <p class="text-gray-700">{{ reply.content }}</p>
+            <div class="flex justify-between items-center mt-2 text-sm text-gray-500">
+              <span>{{ reply.author }}</span>
+              <span>{{ reply.date | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Post FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="showNewPostModal = true">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- New Post Modal -->
+  <ion-modal [isOpen]="showNewPostModal" (didDismiss)="showNewPostModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>New Post</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showNewPostModal = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Title</ion-label>
+          <ion-input [(ngModel)]="newPost.title" placeholder="Enter post title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Category</ion-label>
+          <ion-select [(ngModel)]="newPost.category">
+            <ion-select-option *ngFor="let cat of categories" [value]="cat" [disabled]="cat === 'all'">
+              {{ cat }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Content</ion-label>
+          <ion-textarea [(ngModel)]="newPost.content" rows="6" placeholder="Write your post..."></ion-textarea>
+        </ion-item>
+        <div class="ion-padding">
+          <ion-button expand="block" (click)="submitPost()" [disabled]="!newPost.title || !newPost.content">
+            Post
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Private Chat Modal -->
+  <ion-modal [isOpen]="showChatModal" (didDismiss)="showChatModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Private Message</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showChatModal = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">To</ion-label>
+          <ion-input [(ngModel)]="newMessage.receiverId" placeholder="Enter recipient ID"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Message</ion-label>
+          <ion-textarea [(ngModel)]="newMessage.content" rows="4" placeholder="Write your message..."></ion-textarea>
+        </ion-item>
+        <div class="ion-padding">
+          <ion-button expand="block" (click)="sendMessage()" [disabled]="!newMessage.content || !newMessage.receiverId">
+            Send Message
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -1,0 +1,42 @@
+ion-content {
+  --background: #f8fafc;
+}
+
+.font-arabic {
+  font-family: 'Amiri', serif;
+}
+
+ion-segment {
+  --background: #fff;
+}
+
+ion-segment-button {
+  --color: #047857;
+  --color-checked: #047857;
+  --indicator-color: #047857;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+ion-card {
+  margin: 0;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-header {
+  padding: 1rem;
+}
+
+ion-card-content {
+  padding: 0 1rem 1rem;
+}
+
+ion-fab-button {
+  --background: #047857;
+  --background-activated: #065f46;
+  --background-hover: #065f46;
+}

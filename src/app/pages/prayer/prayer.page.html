@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar class="bg-emerald-50">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-emerald-800 font-arabic">Prayer Times</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-emerald-50">
+  <!-- Location Selector -->
+  <div class="p-4 bg-white shadow-sm">
+    <ion-item>
+      <ion-label position="stacked">Select Location</ion-label>
+      <ion-select [(ngModel)]="selectedCity" (ionChange)="onLocationChange()">
+        <ion-select-option *ngFor="let location of cities" [value]="location.city">
+          {{ location.city }}, {{ location.country }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Prayer Times -->
+  <div class="p-4">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Today's Prayer Times</h2>
+    <div class="bg-white rounded-lg shadow-sm">
+      <div *ngFor="let prayer of prayers" class="p-4 border-b last:border-b-0">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-semibold text-emerald-800">{{ prayer.name }}</h3>
+          </div>
+          <div class="text-lg font-medium text-emerald-600">
+            {{ prayer.time }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Qibla Direction -->
+  <div class="p-4">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Qibla Direction</h2>
+    <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+      <div class="relative w-48 h-48 mx-auto">
+        <!-- Compass Base -->
+        <div class="absolute inset-0 rounded-full border-4 border-emerald-200"></div>
+        <!-- Qibla Arrow -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-2 h-32 bg-emerald-600 rounded-full transform origin-center" [ngStyle]="getQiblaStyle()">
+            <div class="w-4 h-4 bg-emerald-600 rounded-full -mt-1 mx-auto"></div>
+          </div>
+        </div>
+        <!-- Cardinal Points -->
+        <div class="absolute inset-0">
+          <div class="absolute top-2 left-1/2 -translate-x-1/2 text-sm font-semibold">N</div>
+          <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm font-semibold">S</div>
+          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-sm font-semibold">W</div>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 text-sm font-semibold">E</div>
+        </div>
+      </div>
+      <p class="mt-4 text-gray-600">Qibla direction from your location</p>
+    </div>
+  </div>
+</ion-content>

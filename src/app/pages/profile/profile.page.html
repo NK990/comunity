@@ -1,0 +1,190 @@
+<ion-header>
+  <ion-toolbar class="bg-emerald-50">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-emerald-800 font-arabic">Profile & Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-emerald-50">
+  <!-- Segment Control -->
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" class="p-2 bg-white">
+    <ion-segment-button value="profile">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="privacy">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <ion-label>Privacy</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="notifications">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Profile Section -->
+  <div *ngIf="selectedSegment === 'profile'" class="p-4">
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+      <!-- Profile Header -->
+      <div class="flex items-center mb-6">
+        <div class="relative">
+          <img [src]="profile.avatar || 'assets/default-avatar.png'"
+               class="w-20 h-20 rounded-full object-cover"
+               alt="Profile Picture">
+          <label class="absolute bottom-0 right-0 bg-emerald-600 rounded-full p-2 cursor-pointer">
+            <ion-icon name="camera" class="text-white"></ion-icon>
+            <input type="file" class="hidden" (change)="uploadAvatar($event)" accept="image/*">
+          </label>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-semibold text-emerald-800">{{ profile.displayName }}</h2>
+          <p class="text-gray-600">{{ profile.email }}</p>
+        </div>
+      </div>
+
+      <!-- Profile Form -->
+      <ion-list lines="full">
+        <ion-item>
+          <ion-label position="stacked">Display Name</ion-label>
+          <ion-input [(ngModel)]="profile.displayName" [readonly]="!isEditing"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Location</ion-label>
+          <ion-input [(ngModel)]="profile.location" [readonly]="!isEditing"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Age</ion-label>
+          <ion-input type="number" [(ngModel)]="profile.age" [readonly]="!isEditing"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Bio</ion-label>
+          <ion-textarea [(ngModel)]="profile.bio" [readonly]="!isEditing" rows="3"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <!-- Interests -->
+      <div class="mt-4">
+        <h3 class="text-lg font-semibold text-emerald-800 mb-2">Interests</h3>
+        <div class="flex flex-wrap gap-2">
+          <ion-chip *ngFor="let interest of availableInterests"
+                   [color]="isInterestSelected(interest) ? 'success' : 'medium'"
+                   (click)="toggleInterest(interest)"
+                   [disabled]="!isEditing">
+            {{ interest }}
+          </ion-chip>
+        </div>
+      </div>
+
+      <!-- Edit/Save Buttons -->
+      <div class="mt-4">
+        <ion-button *ngIf="!isEditing" expand="block" (click)="isEditing = true">
+          Edit Profile
+        </ion-button>
+        <ion-button *ngIf="isEditing" expand="block" (click)="saveProfile()">
+          Save Changes
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Settings -->
+  <div *ngIf="selectedSegment === 'privacy'" class="p-4">
+    <div class="bg-white rounded-lg shadow-sm p-4">
+      <h3 class="text-lg font-semibold text-emerald-800 mb-4">Privacy Settings</h3>
+
+      <ion-list>
+        <ion-item>
+          <ion-label>Profile Visibility</ion-label>
+          <ion-select [(ngModel)]="privacySettings.profileVisibility">
+            <ion-select-option value="public">Public</ion-select-option>
+            <ion-select-option value="friends">Friends Only</ion-select-option>
+            <ion-select-option value="private">Private</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Show Location</ion-label>
+          <ion-toggle [(ngModel)]="privacySettings.showLocation"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Show Age</ion-label>
+          <ion-toggle [(ngModel)]="privacySettings.showAge"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Show Interests</ion-label>
+          <ion-toggle [(ngModel)]="privacySettings.showInterests"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Allow Private Messages</ion-label>
+          <ion-toggle [(ngModel)]="privacySettings.allowMessages"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" class="mt-4" (click)="savePrivacySettings()">
+        Save Privacy Settings
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Notification Preferences -->
+  <div *ngIf="selectedSegment === 'notifications'" class="p-4">
+    <div class="bg-white rounded-lg shadow-sm p-4">
+      <h3 class="text-lg font-semibold text-emerald-800 mb-4">Notification Settings</h3>
+
+      <ion-list>
+        <ion-item>
+          <ion-label>Prayer Times</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.prayers"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Community Events</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.events"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Forum Discussions</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.discussions"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Private Messages</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.messages"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Donation Updates</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.donations"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Daily Hadith</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.dailyHadith"></ion-toggle>
+        </ion-item>
+
+        <ion-item-divider>
+          <ion-label>Alert Settings</ion-label>
+        </ion-item-divider>
+
+        <ion-item>
+          <ion-label>Sound</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.sound"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Vibration</ion-label>
+          <ion-toggle [(ngModel)]="notificationPreferences.vibration"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" class="mt-4" (click)="saveNotificationPreferences()">
+        Save Notification Settings
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

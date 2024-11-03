@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-toolbar class="bg-emerald-50">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-emerald-800 font-arabic">Donation and Zakat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-emerald-50">
+  <!-- Campaign Section -->
+  <div class="p-4">
+    <h2 class="text-xl font-semibold text-emerald-800 mb-4">Current Campaigns</h2>
+    <div *ngFor="let campaign of campaigns$ | async" class="mb-6 bg-white rounded-lg shadow-sm">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-emerald-800 mb-2">{{ campaign.title }}</h3>
+        <p class="text-gray-600 mb-4">{{ campaign.description }}</p>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+          <div class="bg-emerald-600 h-2.5 rounded-full"
+               [style.width]="getProgressPercentage(campaign) + '%'">
+          </div>
+        </div>
+
+        <!-- Campaign Stats -->
+        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+          <span>Raised: {{ formatCurrency(campaign.raised) }}</span>
+          <span>Goal: {{ formatCurrency(campaign.goal) }}</span>
+        </div>
+
+        <!-- Campaign Details -->
+        <div class="flex justify-between items-center text-sm mb-4">
+          <span class="text-emerald-600">
+            <ion-icon name="location"></ion-icon>
+            {{ campaign.mosque }}
+          </span>
+          <span class="text-emerald-600">
+            <ion-icon name="time"></ion-icon>
+            {{ getRemainingDays(campaign.endDate) }} days left
+          </span>
+        </div>
+
+        <!-- Donate Button -->
+        <ion-button expand="block" (click)="openDonationModal(campaign)">
+          Donate Now
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zakat Calculator FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="showZakatCalculator = true">
+      <ion-icon name="calculator"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Zakat Calculator Modal -->
+  <ion-modal [isOpen]="showZakatCalculator" (didDismiss)="showZakatCalculator = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Zakat Calculator</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showZakatCalculator = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="mb-4">
+          <p class="text-sm text-gray-600 mb-2">
+            Nisab Threshold: {{ formatCurrency(nisabThreshold) }}
+          </p>
+          <p class="text-sm text-gray-600 mb-4">
+            Enter your assets to calculate your Zakat obligation (2.5% of assets above Nisab)
+          </p>
+        </div>
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Savings</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.savings" placeholder="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Gold Value</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.gold" placeholder="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Silver Value</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.silver" placeholder="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Stocks/Investments</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.stocks" placeholder="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Real Estate (for Business)</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.realEstate" placeholder="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Business Assets</ion-label>
+            <ion-input type="number" [(ngModel)]="zakatAssets.business" placeholder="0"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <div class="ion-padding">
+          <ion-button expand="block" (click)="calculateZakat()">
+            Calculate Zakat
+          </ion-button>
+          <ion-button expand="block" fill="clear" (click)="resetCalculator()">
+            Reset
+          </ion-button>
+        </div>
+
+        <!-- Zakat Result -->
+        <div *ngIf="zakatResult" class="mt-4 p-4 bg-emerald-50 rounded-lg">
+          <h3 class="text-lg font-semibold text-emerald-800 mb-2">Your Zakat Calculation</h3>
+          <p class="text-emerald-600 text-xl font-bold mb-2">
+            Total Zakat Due: {{ formatCurrency(zakatResult.total) }}
+          </p>
+          <ion-button expand="block" (click)="showZakatCalculator = false; openDonationModal(null)">
+            Pay Zakat Now
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Donation Modal -->
+  <ion-modal [isOpen]="showDonationModal" (didDismiss)="showDonationModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Make a Donation</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showDonationModal = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div *ngIf="selectedCampaign" class="mb-4">
+          <h3 class="text-lg font-semibold text-emerald-800 mb-2">{{ selectedCampaign.title }}</h3>
+          <p class="text-gray-600">{{ selectedCampaign.description }}</p>
+        </div>
+
+        <ion-item>
+          <ion-label position="stacked">Donation Amount ($)</ion-label>
+          <ion-input type="number" [(ngModel)]="donationAmount" placeholder="Enter amount"></ion-input>
+        </ion-item>
+
+        <!-- Payment Form (Mock) -->
+        <ion-list class="mt-4">
+          <ion-item>
+            <ion-label position="stacked">Card Number</ion-label>
+            <ion-input type="text" placeholder="**** **** **** ****"></ion-input>
+          </ion-item>
+          <div class="flex">
+            <ion-item class="flex-1">
+              <ion-label position="stacked">Expiry</ion-label>
+              <ion-input type="text" placeholder="MM/YY"></ion-input>
+            </ion-item>
+            <ion-item class="flex-1">
+              <ion-label position="stacked">CVV</ion-label>
+              <ion-input type="number" placeholder="***"></ion-input>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <div class="ion-padding">
+          <ion-button expand="block" (click)="processDonation()" [disabled]="!donationAmount">
+            Complete Donation
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
