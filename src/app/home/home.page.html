@@ -1,20 +1,82 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
+<ion-header [translucent]="true" class="bg-emerald-700">
+  <ion-toolbar class="bg-emerald-700">
+    <ion-title class="text-white text-center">
+      <ion-icon name="moon" class="mr-2"></ion-icon>
+      Muslim Community Hub
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="bg-slate-50">
+  <!-- Islamic Pattern Background -->
+  <div class="absolute inset-0 opacity-5 pattern-islamic bg-emerald-700"></div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="p-4 text-center relative">
+    <h1 class="text-3xl font-bold text-emerald-800 mb-2 arabic-font">As-salaam-alaikum</h1>
+    <p class="text-lg text-gray-600 mb-8">Welcome to our Muslim Community Hub</p>
+    <div class="w-16 h-1 bg-emerald-600 mx-auto mb-8"></div>
+  </div>
+
+  <!-- Public Content Section -->
+  <div class="max-w-4xl mx-auto p-4 relative">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6 border-t-4 border-emerald-600">
+      <h2 class="text-xl font-semibold text-emerald-700 mb-4 flex items-center">
+        <ion-icon name="people" class="mr-2"></ion-icon>
+        Public Features
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 border rounded-lg bg-emerald-50 hover:shadow-md transition-shadow">
+          <h3 class="font-medium text-emerald-800 flex items-center">
+            <ion-icon name="time" class="mr-2"></ion-icon>
+            Daily Prayers
+          </h3>
+          <p class="text-gray-600">Access prayer times and qibla direction</p>
+        </div>
+        <div class="p-4 border rounded-lg bg-emerald-50 hover:shadow-md transition-shadow">
+          <h3 class="font-medium text-emerald-800 flex items-center">
+            <ion-icon name="calendar" class="mr-2"></ion-icon>
+            Community Events
+          </h3>
+          <p class="text-gray-600">View upcoming events and gatherings</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Features Preview -->
+    <div class="bg-white rounded-lg shadow-lg p-6 border-t-4 border-amber-600">
+      <h2 class="text-xl font-semibold text-emerald-700 mb-4 flex items-center">
+        <ion-icon name="star" class="mr-2"></ion-icon>
+        Premium Features
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
+          <h3 class="font-medium text-amber-800">Monthly Plan</h3>
+          <p class="text-gray-600">Perfect for trying out premium features</p>
+          <div class="mt-2 text-amber-700 font-semibold">$9.99/month</div>
+        </div>
+        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
+          <h3 class="font-medium text-amber-800">6 Month Plan</h3>
+          <p class="text-gray-600">Great value for dedicated members</p>
+          <div class="mt-2 text-amber-700 font-semibold">$49.99/6months</div>
+        </div>
+        <div class="p-4 border rounded-lg bg-amber-50 hover:shadow-md transition-shadow">
+          <h3 class="font-medium text-amber-800">Yearly Plan</h3>
+          <p class="text-gray-600">Best value for long-term commitment</p>
+          <div class="mt-2 text-amber-700 font-semibold">$89.99/year</div>
+        </div>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <ion-button fill="solid" color="success">
+          <ion-icon name="log-in" slot="start"></ion-icon>
+          Sign In
+        </ion-button>
+        <ion-button fill="solid" color="warning">
+          <ion-icon name="person-add" slot="start"></ion-icon>
+          Join Now
+        </ion-button>
+      </div>
+    </div>
   </div>
 </ion-content>

@@ -1,27 +1,76 @@
-#container {
-  text-align: center;
+// Import Arabic font
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+// Islamic pattern background
+.pattern-islamic {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23047857' fill-opacity='0.1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+// Arabic font styling
+.arabic-font {
+  font-family: 'Amiri', serif;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+// Ionic button customization
+ion-button {
+  --background: transparent;
+  --color: white;
+  --border-radius: 0.5rem;
+  --padding-top: 1rem;
+  --padding-bottom: 1rem;
+  --padding-start: 2rem;
+  --padding-end: 2rem;
+  margin: 0.5rem;
 
-  color: #8c8c8c;
+  &[color="success"] {
+    --background: var(--ion-color-success);
+    --color: white;
 
-  margin: 0;
+    &:hover {
+      --background: var(--ion-color-success-shade);
+    }
+  }
+
+  &[color="warning"] {
+    --background: var(--ion-color-warning);
+    --color: white;
+
+    &:hover {
+      --background: var(--ion-color-warning-shade);
+    }
+  }
 }
 
-#container a {
-  text-decoration: none;
+// Custom animations for content transitions
+.content-enter {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Card hover effects
+.hover-shadow-md {
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  ion-button {
+    --padding-start: 1.5rem;
+    --padding-end: 1.5rem;
+  }
 }
